@@ -4,21 +4,28 @@
 
 int main() {
 
+  srand(time(NULL)); // Seed using the current time
+
   int rounds = 0;
   int p1_points = 0;  // Initialize points for player 1
   int p2_points = 0;  // Initialize points for player 2
   int* p1_total = &p1_points;  // Total points for player 1
   int* p2_total = &p2_points; // Total points for player 2
 
-  enum CHAMPION c1 = createChampion();  // Decide champion for player 1
-  enum CHAMPION c2 = createChampion();  // Decide champion for player 2
-
-
   printf("Enter the number of rounds: ");
   scanf("%d", &rounds);
   printf("\n");
   
   for (int i = 0; i < rounds; i++) {
+    // TODO: Move appropriate sections to playRound()
+    enum CHAMPION c1 = createChampion();  // Decide champion for player 1
+    enum CHAMPION c2 = createChampion();  // Decide champion for player 2
+    int c1_points = getChampionPoints(c1);
+    int c2_points = getChampionPoints(c2);
+
+    printf("%d\n", c1_points);
+    printf("%d\n", c2_points);
+
     printf("ROUND %d\n", i);
     printf("________\n");
     // Call playRound();
@@ -42,6 +49,18 @@ enum CHAMPION createChampion() {
   }
   else {
     return TANK;
+  }
+}
+
+int  getChampionPoints(enum CHAMPION c) {
+  if (c == 0) {
+    return getRandomNumber(1, 8);
+  }
+  else if (c == 1) {
+    return getRandomNumber(3, 7);
+  }
+  else {
+    return getRandomNumber(5, 9);
   }
 }
 
