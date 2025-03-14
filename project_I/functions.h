@@ -3,6 +3,19 @@
 
 enum CHAMPION {MAGE, FIGHTER, TANK};
 
+// Returns the String associated with the Champion value
+const char* getChampionName(int championValue) {
+  if (championValue == 0) {
+    return "MAGE";
+  }
+  else if (championValue == 1) {
+    return "FIGHTER";
+  }
+  else if (championValue == 2) {
+    return "TANK";
+  }
+}
+
 // Computes random number between min and max, inclusive, and returns it
 int getRandomNumber(int min, int max);
 
@@ -12,6 +25,9 @@ enum CHAMPION createChampion();
 
 // Calculates and returns the points associated with the given champion type
 int getChampionPoints(enum CHAMPION c);
+
+// Returns the player with the higher points (1 or 2); returns 0 if tie
+int getChampionWithMorePoints(int c1_points, int c2_points);
 
 // Prints out the champion type as a string when passed as an enum
 void printChampion(enum CHAMPION c);
