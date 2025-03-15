@@ -15,7 +15,6 @@ int main() {
   printf("\n");
   
   for (int i = 1; i <= rounds; i++) {
-    // TODO: Move appropriate sections to playRound()
     enum CHAMPION c1 = createChampion();  // Decide champion for player 1
     enum CHAMPION c2 = createChampion();  // Decide champion for player 2
     int c1_points = getChampionPoints(c1);
@@ -24,14 +23,18 @@ int main() {
     printf("ROUND %d\n", i);
     printf("----------\n");
     playRound(&p1_total, &p2_total, c1, c1_points, c2, c2_points);
-    
-    printf("GAME OVER!!\n");
-    if (p1_total > p2_total) {
-      printf("P1 Won\n");
-    }
-    else {
-      printf("P2 Won\n");
-    }
+    printf("\n");
+  }
+
+  printf("GAME OVER!!\n");
+  if (p1_total > p2_total) {
+    printf("P1 Won\n\n");
+  }
+  else if (p1_total < p2_total) {
+    printf("P2 Won\n\n");
+  }
+  else {
+    printf("TIE\n\n");
   }
 
   return 0;
@@ -43,10 +46,10 @@ int getRandomNumber(int min, int max) {
 
 enum CHAMPION createChampion() {
   int randNum = getRandomNumber(1, 3);
-  if (randNum == 0) {
+  if (randNum == 1) {
     return MAGE;
   }
-  else if (randNum == 1) {
+  else if (randNum == 2) {
     return FIGHTER;
   }
   else {
@@ -84,8 +87,8 @@ int getChampionWithMorePoints(int c1_points, int c2_points) {
 void playRound(int* p1_total, int* p2_total, enum CHAMPION c1, int c1_points, enum CHAMPION c2, int c2_points) {
   int championWithHigherPoints = getChampionWithMorePoints(c1_points, c2_points);
 
-  printf("Player points at the start of the round -- P1 = %d\tP2 = %d\n", *p1_total, *p2_total);
-  printf("P1 : %s-%d\tvs\tP2 : %s-%d\n", getChampionName(c1), c1_points, getChampionName(c2), c2_points);
+  printf("Player points at the start of the round -- P1 = %d       P2 = %d\n", *p1_total, *p2_total);
+  printf("P1 : %s-%d   vs   P2 : %s-%d\n", getChampionName(c1), c1_points, getChampionName(c2), c2_points);
   
   // Both players are MAGE
   if (c1 == 0 && c2 == 0) {
@@ -174,5 +177,5 @@ void playRound(int* p1_total, int* p2_total, enum CHAMPION c1, int c1_points, en
     *p2_total += c2_points;
   }
 
-  printf("Player points at the end of the round -- P1 = %d\tP2 = %d\n", *p1_total, *p2_total);
+  printf("Player points at the end of the round -- P1 = %d       P2 = %d\n", *p1_total, *p2_total);
 }
