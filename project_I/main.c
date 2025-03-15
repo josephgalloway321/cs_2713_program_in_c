@@ -14,8 +14,9 @@ int main() {
   printf("Enter the number of rounds: ");
   scanf("%d", &rounds);
   printf("\n");
-  
-  for (int i = 1; i <= rounds; i++) {
+  int i;  // Counter for loop below
+
+  for (i = 1; i <= rounds; i++) {
     enum CHAMPION c1 = createChampion();  // Decide champion for player 1
     enum CHAMPION c2 = createChampion();  // Decide champion for player 2
     int c1_points = getChampionPoints(c1);

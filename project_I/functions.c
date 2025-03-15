@@ -17,6 +17,18 @@ enum CHAMPION createChampion() {
   }
 }
 
+const char* getChampionName(int championValue) {
+  if (championValue == 0) {
+    return "MAGE";
+  }
+  else if (championValue == 1) {
+    return "FIGHTER";
+  }
+  else {
+    return "TANK";
+  }
+}
+
 int  getChampionPoints(enum CHAMPION c) {
   if (c == 0) {
     return getRandomNumber(1, 8);
