@@ -17,18 +17,6 @@ enum CHAMPION createChampion() {
   }
 }
 
-const char* getChampionName(int championValue) {
-  if (championValue == 0) {
-    return "MAGE";
-  }
-  else if (championValue == 1) {
-    return "FIGHTER";
-  }
-  else {
-    return "TANK";
-  }
-}
-
 int  getChampionPoints(enum CHAMPION c) {
   if (c == 0) {
     return getRandomNumber(1, 8);
@@ -38,6 +26,18 @@ int  getChampionPoints(enum CHAMPION c) {
   }
   else {
     return getRandomNumber(5, 9);
+  }
+}
+
+void printChampion(enum CHAMPION c) {
+  if (c == 0) {
+    printf("MAGE");
+  }
+  else if (c == 1) {
+    printf("FIGHTER");
+  }
+  else {
+    printf("TANK");
   }
 }
 
@@ -60,20 +60,32 @@ void playRound(int* p1_total, int* p2_total, enum CHAMPION c1, int c1_points, en
   int championWithHigherPoints = getChampionWithMorePoints(c1_points, c2_points);
 
   printf("Player points at the start of the round -- P1 = %d       P2 = %d\n", *p1_total, *p2_total);
-  printf("P1 : %s-%d   vs   P2 : %s-%d\n", getChampionName(c1), c1_points, getChampionName(c2), c2_points);
+  printf("P1: ");
+  printChampion(c1);
+  printf("-%d   vs   P2 : ", c1_points);
+  printChampion(c2);
+  printf("-%d\n", c2_points);
   
   // Both players are MAGE
   if (c1 == 0 && c2 == 0) {
     if (championWithHigherPoints == 2) {
-      printf("Player 1 (%s) loses their current points.\n", getChampionName(c1));
+      printf("Player 1 (");
+      printChampion(c1);
+      printf(") loses their current points.\n");
       *p1_total -= c1_points;
-      printf("Player 2 (%s) wins their current points.\n", getChampionName(c2));
+      printf("Player 2 (");
+      printChampion(c2);
+      printf(") wins their current points.\n");
       *p2_total += c2_points;
     }
     else if (championWithHigherPoints == 1) {
-      printf("Player 1 (%s) wins their current points.\n", getChampionName(c1));
+      printf("Player 1 (");
+      printChampion(c1);
+      printf(") wins their current points.\n");
       *p1_total += c1_points;
-      printf("Player 2 (%s) loses their current points.\n", getChampionName(c2));
+      printf("Player 2 (");
+      printChampion(c2);
+      printf(") loses their current points.\n");
       *p2_total -= c2_points;
     }
     else if (championWithHigherPoints == 0) {
@@ -93,14 +105,22 @@ void playRound(int* p1_total, int* p2_total, enum CHAMPION c1, int c1_points, en
   // Player 1 is MAGE, Player 2 is FIGHTER
   else if (c1 == 0 && c2 == 1) {
     if (championWithHigherPoints == 2) {
-      printf("Player 1 (%s) loses their current points.\n", getChampionName(c1));
+      printf("Player 1 (");
+      printChampion(c1);
+      printf(") loses their current points.\n");
       *p1_total -= c1_points;
-      printf("Player 2 (%s) wins but no reward.\n", getChampionName(c2));
+      printf("Player 2 (");
+      printChampion(c2);
+      printf(") wins but no reward.\n");
     }
     else if (championWithHigherPoints == 1) {
-      printf("Player 1 (%s) wins their current points.\n", getChampionName(c1));
+      printf("Player 1 (");
+      printChampion(c1);
+      printf(") wins their current points.\n");
       *p1_total += c1_points;
-      printf("Player 2 (%s) loses but with no penalty.\n", getChampionName(c2));
+      printf("Player 2 (");
+      printChampion(c2);
+      printf(") loses but with no penalty.\n");
     }
     else if (championWithHigherPoints == 0) {
       printf("Nothing happens...\n");
@@ -109,13 +129,21 @@ void playRound(int* p1_total, int* p2_total, enum CHAMPION c1, int c1_points, en
   // Player 1 is FIGHTER, Player 2 is MAGE
   else if (c1 == 1 && c2 == 0) {
     if (championWithHigherPoints == 2) {
-      printf("Player 1 (%s) loses but with no penalty.\n", getChampionName(c1));
-      printf("Player 2 (%s) wins their current points.\n", getChampionName(c2));
+      printf("Player 1 (");
+      printChampion(c1);
+      printf(") loses but with no penalty.\n");
+      printf("Player 2 (");
+      printChampion(c2);
+      printf(") wins their current points.\n");
       *p2_total += c2_points;
     }
     else if (championWithHigherPoints == 1) {
-      printf("Player 1 (%s) wins but no reward.\n", getChampionName(c1));
-      printf("Player 2 (%s) loses their current points.\n", getChampionName(c2));
+      printf("Player 1 (");
+      printChampion(c1);
+      printf(") wins but no reward.\n");
+      printf("Player 2 (");
+      printChampion(c2);
+      printf(") loses their current points.\n");
       *p2_total -= c2_points;
     }
     else if (championWithHigherPoints == 0) {
@@ -124,28 +152,44 @@ void playRound(int* p1_total, int* p2_total, enum CHAMPION c1, int c1_points, en
   }
   // Player 1 is MAGE, Player 2 is TANK or 
   else if (c1 == 0 && c2 == 2) {
-    printf("Player 1 (%s) wins and gains their current points.\n", getChampionName(c1));
+    printf("Player 1 (");
+    printChampion(c1);
+    printf(") wins and gains their current points.\n");
     *p1_total += c1_points;
-    printf("Player 2 (%s) loses their current points.\n", getChampionName(c2));
+    printf("Player 2 (");
+    printChampion(c2);
+    printf(") loses their current points.\n");
     *p2_total -= c2_points;
   }
   // Player 1 is TANK, Player 2 is MAGE
   else if (c1 == 2 && c2 == 0) {
-    printf("Player 1 (%s) loses their current points.\n", getChampionName(c1));
+    printf("Player 1 (");
+    printChampion(c1);
+    printf(") loses their current points.\n");
     *p1_total -= c1_points;
-    printf("Player 2 (%s) wins and gains their current points.\n", getChampionName(c2));
+    printf("Player 2 (");
+    printChampion(c2);
+    printf(") wins and gains their current points.\n");
     *p2_total += c2_points;
   }
   // Player 1 is FIGHTER, Player 2 is TANK
   else if (c1 == 1 && c2 == 2) {
-    printf("Player 1 (%s) wins and gains their current points.\n", getChampionName(c1));
+    printf("Player 1 (");
+    printChampion(c1);
+    printf(") wins and gains their current points.\n");
     *p1_total += c1_points;
-    printf("Player 2 (%s) loses but with no penalty.\n", getChampionName(c2));
+    printf("Player 2 (");
+    printChampion(c2);
+    printf(") loses but with no penalty.\n");
   }
   // Player 1 is TANK, Player 2 is FIGHTER
   else if (c1 == 2 && c2 == 1) {
-    printf("Player 1 (%s) loses but with no penalty.\n", getChampionName(c1));
-    printf("Player 2 (%s) wins and gains their current points.\n", getChampionName(c2));
+    printf("Player 1 (");
+    printChampion(c1);
+    printf(") loses but with no penalty.\n");
+    printf("Player 2 (");
+    printChampion(c2);
+    printf(") wins and gains their current points.\n");
     *p2_total += c2_points;
   }
 

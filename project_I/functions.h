@@ -3,9 +3,6 @@
 
 enum CHAMPION {MAGE, FIGHTER, TANK};
 
-// Returns the String associated with the Champion value
-const char* getChampionName(int championValue);
-
 // Computes random number between min and max, inclusive, and returns it
 int getRandomNumber(int min, int max);
 
