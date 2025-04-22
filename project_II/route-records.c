@@ -1,13 +1,14 @@
+#include <stdlib.h>
 #include "route-records.h"
 
 RouteRecord* createRecords(FILE* fileIn) {
-  // TODO-1: Go through fileIn and count # of total records, skipping header
+  // Go through fileIn and count # of total records, skipping header
   int totalRecords = 0;
   fileIn = fopen("data-2024.csv", "r");
 
   if (fileIn == NULL) {
     printf("Error opening file.\n");
-    return 1;
+    return NULL;
   }
 
   while (!feof(fileIn)) {
@@ -16,16 +17,24 @@ RouteRecord* createRecords(FILE* fileIn) {
   totalRecords--;  // Subtract one because of the header
   //printf("Total Records = %d", totalRecords);
   
-  RouteRecord routes[] = (RouteRecord*) malloc(totalRecords * sizeof(RouteRecord));
+  //Dynamically allocate memory for an array of RouteRecords based on count
+  RouteRecord* routes = (RouteRecord*)malloc(totalRecords * sizeof(RouteRecord));
+
+
+  // Each RouteRecord struct object in the array has an array of 6 integers
+  // to hold the # of passengers for 6 months; initialize each value to 0
+  for (int i = 0; i < totalRecords; i++) {
+    for (int j = 0; j < 6; j++) {
+      routes[i].passengersPerMonth[j] = 0;
+    }
+  }
+
+
+  // TODO-4: Rewind the fileIn pointer back to the top of the document then close document
+  // TODO-5: Return the pointer of the array you dynamically allocated
 
   fclose(fileIn);
   return routes;
-
-  // TODO-2: Dynamically allocate memory for an array of RouteRecords based on count
-  // TODO-3: Each RouteRecord struct object in the array has an array of 6 integers
-  //         to hold the # of passengers for 6 months; initialize each value to 0
-  // TODO-4: Rewind the fileIn pointer back to the top of the document then close document
-  // TODO-5: Return the pointer of the array you dynamically allocated
 }
 
 int fillRecords(RouteRecord* r, FILE* fileIn) {
