@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include "functions.h"
 
 int getRandomNumber(int min, int max) {
