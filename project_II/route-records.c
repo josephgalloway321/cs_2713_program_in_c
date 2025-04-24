@@ -43,18 +43,13 @@ int fillRecords(RouteRecord* r, FILE* fileIn) {
   // Open file to analyze contents
   int usedRecords = 0;
   char buffer[10000];
-  //char* data = NULL;
   char* month = NULL;
   char* originAirportCode = NULL;
   char* destAirportCode = NULL;
   char* airlineCode = NULL;
   char* passengersPerMonth = NULL;
+  int routeRecordIdx = -1;
   fileIn = fopen("data-2024.csv", "r");
-
-  if (fileIn == NULL) {
-    printf("Error opening file.\n");
-    return NULL;
-  }
 
   if (fileIn == NULL) {
     printf("Error opening file.\n");
@@ -74,13 +69,27 @@ int fillRecords(RouteRecord* r, FILE* fileIn) {
     airlineCode = strtok(buffer, ",");
     passengersPerMonth = strtok(buffer, ",");
 
-    // TODO: Analyze IATA Airline Code
+    // Analyze IATA Airline Code
+    if (strlen(airlineCode) == 3) {
+      continue;  // Skip to next iteration
+    }
+    
+    // TODO: Call findAirlineRoute() to see if route was already entered in array
+    // If found, then update record w/ passenger data for that month
+    // If not then add new route to the array
+    routeRecordIdx = (r, ___, originAirportCode, destAirportCode, 
+                      airlineCode, );
+    if (routeRecordIdx != -1) {
+      // Update record w/ passenger data for that month
+      
+    }
+    else {
+      // Create new record w/ route info then add to array
+
+    }
+
     usedRecords++;
   }
-
-  // TODO: CA;; findAirlineRoute() to see if route was already entered in array
-  // If found, then update record w/ passenger data for that month
-
 
   // Return actual number of RouteRecords used in the array
   // Value returned will be less than the size of the array created since not all
