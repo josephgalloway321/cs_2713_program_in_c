@@ -22,12 +22,10 @@ int fillRecords(RouteRecord* r, FILE* fileIn);
 
 // Recursive function finds a record in the RouteRecord array with the same
 // origin and destination airport codes and airline that are specified
-int findAirlineRoute(RouteRecord* r, int length, const char* origin, 
-                     const char* destination, const char* airline, int curIdx);
+int findAirlineRoute(RouteRecord* r, int length, const char* origin, const char* destination, const char* airline, int curIdx);
 
 // Searches the RouteRecord array and prints our the results of the search
-void searchRecords(RouteRecord* r, int length, const char* key1, const char* key2,
-                   SearchType st);
+void searchRecords(RouteRecord* r, int length, const char* key1, const char* key2, SearchType st);
 
 // Prints the menu
 void printMenu();

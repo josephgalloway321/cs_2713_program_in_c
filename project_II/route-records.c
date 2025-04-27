@@ -47,8 +47,9 @@ int fillRecords(RouteRecord* r, FILE* fileIn) {
   char* originAirportCode = NULL;
   char* destAirportCode = NULL;
   char* airlineCode = NULL;
-  char* passengersPerMonth = NULL;
+  char* totalPassengersForMonthForRoute = NULL;
   int routeRecordIdx = -1;
+  int rSize = sizeof(r) / sizeof(r[0]);
   fileIn = fopen("data-2024.csv", "r");
 
   if (fileIn == NULL) {
@@ -67,27 +68,34 @@ int fillRecords(RouteRecord* r, FILE* fileIn) {
     originAirportCode = strtok(buffer, ","); 
     destAirportCode = strtok(buffer, ",");
     airlineCode = strtok(buffer, ",");
-    passengersPerMonth = strtok(buffer, ",");
+    totalPassengersForMonthForRoute = strtok(buffer, ",");
 
     // Analyze IATA Airline Code
     if (strlen(airlineCode) == 3) {
       continue;  // Skip to next iteration
     }
     
-    // TODO: Call findAirlineRoute() to see if route was already entered in array
+    // TODO: Call findAirlineRoute() to see if route was already entered in array, r
     // If found, then update record w/ passenger data for that month
     // If not then add new route to the array
-    routeRecordIdx = (r, ___, originAirportCode, destAirportCode, 
-                      airlineCode, );
+    routeRecordIdx = findAirlineRoute(r, rSize, originAirportCode, destAirportCode, airlineCode, rSize);
     if (routeRecordIdx != -1) {
       // Update record w/ passenger data for that month
-      
+      r[routeRecordIdx].passengersPerMonth[atoi(month)] = atoi(totalPassengersForMonthForRoute);
     }
     else {
       // Create new record w/ route info then add to array
-
+      struct RouteRecord newRouteRecord;
+      strcpy(newRouteRecord.originAirportCode, originAirportCode);
+      strcpy(newRouteRecord.destAirportCode, destAirportCode);
+      strcpy(newRouteRecord.airlineCode, airlineCode);
+      newRouteRecord.passengersPerMonth[atoi(month)] = atoi(totalPassengersForMonthForRoute);
+      
+      // TODO: Double check this is correct
+      r[usedRecords] = newRouteRecord;
     }
 
+    // Increment usedRecords after adding route to RouteRecord array
     usedRecords++;
   }
 
@@ -99,14 +107,20 @@ int fillRecords(RouteRecord* r, FILE* fileIn) {
   return usedRecords;
 }
 
-int findAirlineRoute(RouteRecord* r, int length, const char* origin, 
-                     const char* destination, const char* airline, int curIdx) {
-  return 0;
+int findAirlineRoute(RouteRecord* r, int length, const char* origin, const char* destination, const char* airline, int curIdx) {
+  if (curIdx < 0) {
+    return -1;
+  }
+  // If route record found in array, r
+  if(strcmp(r[curIdx].originAirportCode, origin) == 0 && strcmp(r[curIdx].destAirportCode, destination) == 0 && strcmp(r[curIdx].airlineCode, airline) == 0) {
+    return curIdx;
+  }
+
+  return findAirlineRoute(r, length, origin, destination, airline, curIdx - 1);
 }
 
-void searchRecords(RouteRecord* r, int length, const char* key1, const char* key2,
-                   SearchType st) {
-
+void searchRecords(RouteRecord* r, int length, const char* key1, const char* key2, SearchType st) {
+  
 }
 
 void printMenu() {
