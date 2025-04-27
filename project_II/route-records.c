@@ -5,18 +5,22 @@
 RouteRecord* createRecords(FILE* fileIn) {
   // Go through fileIn and count # of total records, skipping header
   int totalRecords = 0;
-  fileIn = fopen("data-2024.csv", "r");
+  char charReadInFile;
+  //fileIn = fopen("data-2024.csv", "r");
 
   if (fileIn == NULL) {
     printf("Error opening file.\n");
     return NULL;
   }
-
-  while (!feof(fileIn)) {
-    totalRecords++;
+  
+  while (charReadInFile != EOF) {
+    charReadInFile = fgetc(fileIn);
+    if (charReadInFile == '\n') {
+      totalRecords++;
+    }
   }
   totalRecords--;  // Subtract one because of the header
-  //printf("Total Records = %d", totalRecords);
+  //printf("Total Records = %d\n", totalRecords);
   
   // Dynamically allocate memory for an array of RouteRecords based on count
   RouteRecord* routes = (RouteRecord*)malloc(totalRecords * sizeof(RouteRecord));
@@ -33,9 +37,9 @@ RouteRecord* createRecords(FILE* fileIn) {
 
   // Rewind the fileIn pointer back to the top of the document then close document
   rewind(fileIn);
-
+  
   // Close file and return the pointer of the array you dynamically allocated
-  fclose(fileIn);
+  //fclose(fileIn);
   return routes;
 }
 
@@ -54,7 +58,7 @@ int fillRecords(RouteRecord* r, FILE* fileIn) {
 
   if (fileIn == NULL) {
     printf("Error opening file.\n");
-    return NULL;
+    return -1;
   }
 
   fgets(buffer, sizeof(buffer), fileIn);  // Read & ignore first/header line of CSV
@@ -63,19 +67,21 @@ int fillRecords(RouteRecord* r, FILE* fileIn) {
   // The file pointer is advanced to the beginning of the next line after successfully reading a line
   // Subsequenct calls to fgets will continue reading through a file
   while (fgets(buffer, sizeof(buffer), fileIn)) {
+    //printf("%s\n", buffer);  // Print each line for testing
+
     // Parse current line into useful data
     month = strtok(buffer, ",");  // Read current line, split into multiple tokens using delimeter
-    originAirportCode = strtok(buffer, ","); 
-    destAirportCode = strtok(buffer, ",");
-    airlineCode = strtok(buffer, ",");
-    totalPassengersForMonthForRoute = strtok(buffer, ",");
+    originAirportCode = strtok(NULL, ","); 
+    destAirportCode = strtok(NULL, ",");
+    airlineCode = strtok(NULL, ",");
+    totalPassengersForMonthForRoute = strtok(NULL, ",");
 
     // Analyze IATA Airline Code
     if (strlen(airlineCode) == 3) {
       continue;  // Skip to next iteration
     }
     
-    // TODO: Call findAirlineRoute() to see if route was already entered in array, r
+    // Call findAirlineRoute() to see if route was already entered in array, r
     // If found, then update record w/ passenger data for that month
     // If not then add new route to the array
     routeRecordIdx = findAirlineRoute(r, rSize, originAirportCode, destAirportCode, airlineCode, rSize);
@@ -120,7 +126,16 @@ int findAirlineRoute(RouteRecord* r, int length, const char* origin, const char*
 }
 
 void searchRecords(RouteRecord* r, int length, const char* key1, const char* key2, SearchType st) {
-  
+  // If user searches by origin, destination, or airline
+  if (st == 1 || st == 2 || st == 3) {
+    // Merp
+  }
+  // User searched by route
+  else {
+
+  }
+
+  // TODO: Print out info
 }
 
 void printMenu() {
