@@ -14,6 +14,7 @@ int main( int argc, char *argv[] ) {
   int continueProgram = 1;  // 1 = continue, 0 = end program
   int nonIntEntered;  // Used to check if non-int entered during menu selection 
   int clearInputBuffer;
+  int rLength;  // Size/length of route records array
 
   
   /* 2. Check command line arguments here. If a command lincheckIntChosen == 0e argument (for the file name) is missing, print out the following: ERROR: Missing file name and end the program */
@@ -41,8 +42,8 @@ int main( int argc, char *argv[] ) {
   // 5.2 Call fillRecords() to go through the CSV file again to fill in the values. It will then return the actual number of items the array has. 
   // Recall that not all records in the original CSV file will be entered into the array. 
   // Print the number of unique routes operated by different airlines: Unique routes operated by airlines: ???
-  printf("Unique routes operated by airlines: %d\n", fillRecords(r, fileIn));
-  int rSize = sizeof(r) / sizeof(r[0]);
+  rLength = fillRecords(r, fileIn);
+  printf("Unique routes operated by airlines: %d\n", rLength);
 
   // 5.3 Close the the file.
   //printf("Closing %s...\n", argv[1]);
@@ -72,10 +73,13 @@ int main( int argc, char *argv[] ) {
         printf("Enter origin: ");
         scanf("%s", key1);
         while ((clearInputBuffer = getchar()) != '\n');  // Clear standard input buffer
+        
         printf("Enter destination: ");
         scanf("%s", key2);
         while ((clearInputBuffer = getchar()) != '\n');  // Clear standard input buffer
-        searchRecords(r, rSize, key1, key2, ROUTE);
+        
+        printf("Searching by route...\n");
+        searchRecords(r, rLength, key1, key2, ROUTE);
         break;
 
       case 2: 
@@ -83,7 +87,9 @@ int main( int argc, char *argv[] ) {
         printf("Enter your origin: ");
         scanf("%s", key1);
         while ((clearInputBuffer = getchar()) != '\n');  // Clear standard input buffer
-        searchRecords(r, rSize, key1, key2, ORIGIN);
+        
+        printf("Searching by origin...\n");
+        searchRecords(r, rLength, key1, key2, ORIGIN);
         break;
 
       case 3:
@@ -91,7 +97,9 @@ int main( int argc, char *argv[] ) {
         printf("Enter your destination: ");
         scanf("%s", key1);
         while ((clearInputBuffer = getchar()) != '\n');  // Clear standard input buffer
-        searchRecords(r, rSize, key1, key2, DESTINATION);
+
+        printf("Searching by destination...\n");
+        searchRecords(r, rLength, key1, key2, DESTINATION);
         break;
 
       case 4:
@@ -99,7 +107,9 @@ int main( int argc, char *argv[] ) {
         printf("Enter your airline: ");
         scanf("%s", key1);
         while ((clearInputBuffer = getchar()) != '\n');  // Clear standard input buffer
-        searchRecords(r, rSize, key1, key2, AIRLINE);
+
+        printf("Searching by airline...\n");
+        searchRecords(r, rLength, key1, key2, AIRLINE);
         break;
 
       // 6.4.2 Quit needs to free the array

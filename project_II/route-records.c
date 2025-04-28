@@ -25,7 +25,6 @@ RouteRecord* createRecords(FILE* fileIn) {
   // Dynamically allocate memory for an array of RouteRecords based on count
   RouteRecord* routes = (RouteRecord*)malloc(totalRecords * sizeof(RouteRecord));
 
-
   // Each RouteRecord struct object in the array has an array of 6 integers
   // to hold the # of passengers for 6 months; initialize each value to 0
   for (int i = 0; i < totalRecords; i++) {
@@ -53,7 +52,7 @@ int fillRecords(RouteRecord* r, FILE* fileIn) {
   char* airlineCode = NULL;
   char* totalPassengersForMonthForRoute = NULL;
   int routeRecordIdx = -1;
-  int rSize = sizeof(r) / sizeof(r[0]);
+  int rLength;
   fileIn = fopen("data-2024.csv", "r");
 
   if (fileIn == NULL) {
@@ -84,7 +83,7 @@ int fillRecords(RouteRecord* r, FILE* fileIn) {
     // Call findAirlineRoute() to see if route was already entered in array, r
     // If found, then update record w/ passenger data for that month
     // If not then add new route to the array
-    routeRecordIdx = findAirlineRoute(r, rSize, originAirportCode, destAirportCode, airlineCode, rSize);
+    routeRecordIdx = findAirlineRoute(r, rLength, originAirportCode, destAirportCode, airlineCode, 17135);
     if (routeRecordIdx != -1) {
       // Update record w/ passenger data for that month
       r[routeRecordIdx].passengersPerMonth[atoi(month)] = atoi(totalPassengersForMonthForRoute);
@@ -110,7 +109,7 @@ int fillRecords(RouteRecord* r, FILE* fileIn) {
   // records in the original CSV file will be entered into the array
   // Close file
   fclose(fileIn);
-  return usedRecords;
+  return usedRecords - 1;
 }
 
 int findAirlineRoute(RouteRecord* r, int length, const char* origin, const char* destination, const char* airline, int curIdx) {
@@ -126,16 +125,25 @@ int findAirlineRoute(RouteRecord* r, int length, const char* origin, const char*
 }
 
 void searchRecords(RouteRecord* r, int length, const char* key1, const char* key2, SearchType st) {
-  // If user searches by origin, destination, or airline
-  if (st == 1 || st == 2 || st == 3) {
-    // Merp
+  for (int i = 0; i < length; i++) {
+    // If user searches by origin, destination, or airline
+    if (st == ORIGIN && strcmp(r[i].originAirportCode, key1)) {
+      printf("Found!\n");
+    }
+    else if (st == DESTINATION) {
+    
+    }
+    else if (st == AIRLINE) {
+    
+    }
+    // User searched by route
+    else {
+    
+    }
+    
+    // TODO: Print out info
+    
   }
-  // User searched by route
-  else {
-
-  }
-
-  // TODO: Print out info
 }
 
 void printMenu() {
